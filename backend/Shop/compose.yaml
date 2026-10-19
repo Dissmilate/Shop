@@ -1,0 +1,7 @@
+﻿services:
+  shop.api:
+    image: shop.api
+    build:
+      context: .
+      dockerfile: Shop.Api/Dockerfile
+
