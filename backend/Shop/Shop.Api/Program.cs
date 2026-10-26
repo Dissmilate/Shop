@@ -21,6 +21,10 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
+    using var scope = app.Services.CreateScope();
+    var db = scope.ServiceProvider.GetRequiredService<ShopDbContext>();
+    await db.Database.MigrateAsync();
+    
     app.MapOpenApi();
     app.MapScalarApiReference();
     app.UseSwaggerUI(options => options.SwaggerEndpoint("/openapi/v1.json", "Api"));
