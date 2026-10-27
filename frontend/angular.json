@@ -54,6 +54,9 @@
         },
         "serve": {
           "builder": "@angular/build:dev-server",
+          "options": {
+            "proxyConfig": "configuration.json"
+          },
           "configurations": {
             "production": {
               "buildTarget": "shop-web:build:production"
