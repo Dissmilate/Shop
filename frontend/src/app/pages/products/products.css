@@ -13,3 +13,22 @@
 .error {
   color: #b91c1c;
 }
+
+.form {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.form input {
+  padding: 6px 8px;
+}
+
+.actions {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.actions button + button {
+  margin-left: 8px;
+}
