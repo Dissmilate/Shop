@@ -1,0 +1,39 @@
+.header {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 12px 24px;
+  background: #1f2937;
+  color: #fff;
+}
+
+.logo {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.nav {
+  display: flex;
+  gap: 8px;
+}
+
+.nav a {
+  padding: 6px 12px;
+  border-radius: 4px;
+  color: #fff;
+  text-decoration: none;
+}
+
+.nav a:hover {
+  background: #374151;
+}
+
+.nav a.active {
+  background: #2563eb;
+}
+
+.content {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 24px;
+}
