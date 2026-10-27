@@ -1,1 +1,82 @@
-<p>orders works!</p>
+<h1>Orders</h1>
+
+<form class="form" [formGroup]="form" (ngSubmit)="save()">
+  <input formControlName="deliveryAddress" placeholder="Delivery address" />
+
+  <div formArrayName="items" class="items">
+    @for (item of form.controls.items.controls; track item; let i = $index) {
+      <div class="item" [formGroupName]="i">
+        <select formControlName="productId">
+          <option value="" disabled>Select product</option>
+          @for (product of products(); track product.id) {
+            <option [value]="product.id">
+              {{ product.name }} ({{ product.price | number: '1.2-2' }})
+            </option>
+          }
+        </select>
+        <input formControlName="quantity" type="number" min="1" max="500" />
+        <button
+          type="button"
+          (click)="removeItem(i)"
+          [disabled]="form.controls.items.length === 1"
+        >
+          Remove
+        </button>
+      </div>
+    }
+  </div>
+
+  <div class="buttons">
+    <button type="button" (click)="addItem()">Add item</button>
+    <button type="submit">{{ editingId() ? 'Save' : 'Create order' }}</button>
+    @if (editingId()) {
+      <button type="button" (click)="cancel()">Cancel</button>
+    }
+  </div>
+</form>
+
+@if (form.controls.deliveryAddress.touched && form.controls.deliveryAddress.invalid) {
+  <p class="error">Delivery address is required, up to 500 characters.</p>
+}
+@if (form.controls.items.touched && form.controls.items.invalid) {
+  <p class="error">Each item needs a product and a quantity from 1 to 500.</p>
+}
+@if (error()) {
+  <p class="error">{{ error() }}</p>
+}
+
+<table class="table">
+  <thead>
+  <tr>
+    <th>#</th>
+    <th>Date</th>
+    <th>Address</th>
+    <th>Items</th>
+    <th>Total</th>
+    <th></th>
+  </tr>
+  </thead>
+  <tbody>
+    @for (order of orders(); track order.id) {
+      <tr>
+        <td>{{ order.number }}</td>
+        <td>{{ order.createdAt | date: 'dd.MM.yyyy HH:mm' }}</td>
+        <td>{{ order.deliveryAddress }}</td>
+        <td>
+          @for (item of order.items; track item.productId) {
+            <div>{{ item.productName }} × {{ item.quantity }}</div>
+          }
+        </td>
+        <td>{{ order.total | number: '1.2-2' }}</td>
+        <td class="actions">
+          <button type="button" (click)="edit(order)">Edit</button>
+          <button type="button" (click)="remove(order)">Delete</button>
+        </td>
+      </tr>
+    } @empty {
+      <tr>
+        <td colspan="6">No orders yet.</td>
+      </tr>
+    }
+  </tbody>
+</table>
